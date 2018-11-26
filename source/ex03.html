@@ -112,5 +112,48 @@
 			</div>
 		</div>	
 	</div>
+<script>	
+	
+	var ul = document.querySelector("ul");
+	function draw(){
+		ul.innerHTML = "";
+		phones.forEach( item => {
+		var li = document.createElement("li");
+		li.className = "list-group-item justify-content-between";
+		li.innerHTML = item.title;
+		
+		var span = document.createElement("span");
+		span.className = "badge badge-default badge-pill";
+		span.innerHTML = item.price;
+		
+		li.appendChild(span);
+		ul.appendChild(li);
+	})}
+	
+	draw();
+	
+	var btn = document.querySelector("button");
+	var btn_2 = document.querySelector("button + button");
+	btn.onclick = function(){
+		btn.classList.remove("btn-secondary");
+		btn.classList.add("btn-success");
+		btn_2.classList.add("btn-secondary");
+		btn_2.classList.remove("btn-success");
+		
+		phones.sort((a,b) => parseInt(a.price) - parseInt(b.price));
+	draw();
+	}
+	
+	btn_2.onclick = function(){
+		btn_2.classList.remove("btn-secondary");
+		btn_2.classList.add("btn-success");
+		btn.classList.add("btn-secondary");
+		btn.classList.remove("btn-success");
+		
+		phones.sort((a,b) => parseInt(b.price) - parseInt(a.price));
+	draw();
+	}
+	
+</script>	
 </body>
 </html>

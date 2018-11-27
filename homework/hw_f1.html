@@ -12,7 +12,6 @@
 			margin-top: 10px;
 			margin-bottom: 20px;
 		}
-		
 	</style>
 	
 </head>
@@ -69,4 +68,66 @@
 		</div>
 	</div>	
 </body>
+
+	<script>
+
+	var elem = document.getElementById("alert_div").getBoundingClientRect();
+	var weight_elem = elem.right - elem.left;
+	var weight_displ = document.documentElement.clientWidth;
+	var element = document.getElementById("alert_div");
+	var start = weight_elem + 0.5*(weight_displ - weight_elem);
+	var time_move = 1000;
+	var time_delay = 1000;
+	
+	function moveTo(){
+		var start_time = Date.now(); 
+		var timer = setInterval(function() {
+			var timePassed = Date.now() - start_time;
+			if (timePassed >= time_move*2 + time_delay) {
+				clearInterval(timer);
+				element.style.left = - start + "px";
+				return;
+			  }
+			if (timePassed <= time_move){
+				moveBlock(timePassed);
+			}
+			if (timePassed >= time_move && timePassed <= time_move + time_delay){
+				element.style.left = 0;
+			}
+			if (timePassed >= time_move + time_delay && timePassed <= time_move * 2 + time_delay){
+				moveBlock_next(timePassed);
+			}
+		}, 20);
+		function moveBlock(timePassed) {
+		  element.style.left = (start - start * timePassed / time_move) + "px";
+		}
+		function moveBlock_next(timePassed) {
+		  element.style.left = (0 - start * (timePassed - (time_move + time_delay)) / time_move) + "px";
+		  console.log(element.style.left);
+		}
+	}
+	
+	var i = 0;
+	function go(){
+		setTimeout(moveTo, 500);
+		alert_div.innerHTML = phones_ul.children[i].innerHTML;
+		var spans = alert_div.getElementsByTagName("span");
+		spans[0].classList.remove("badge-default");
+		spans[0].classList.add("badge-danger");
+		var x = document.getElementById("alert_div").style.right;
+		console.log(x);
+		phones_ul.children[i].classList.add("list-group-item-info");
+		var prev_index = i > 0 ? (i - 1) : phones_ul.children.length - 1;
+		phones_ul.children[prev_index].classList.remove("list-group-item-info");
+				i++;
+		i = (i > phones_ul.children.length - 1) ? 0 : i;
+	}
+	
+	setInterval(go, 3600);
+	
+	
+	</script>
+
+	
+	</body>
 </html>
